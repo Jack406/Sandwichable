@@ -79,8 +79,7 @@ public class CuttingBoardBlock extends HorizontalFacingBlock implements BlockEnt
         ItemStack stack = player.getStackInHand(hand);
         if(world.getBlockEntity(pos) instanceof CuttingBoardBlockEntity && !stack.getItem().equals(BlocksRegistry.SANDWICH.asItem())) {
             CuttingBoardBlockEntity blockEntity = (CuttingBoardBlockEntity) world.getBlockEntity(pos);
-            if(stack.getItem() == ItemsRegistry.KITCHEN_KNIFE) {
-
+            if(stack.getItem() == ItemsRegistry.KITCHEN_KNIFE || player.getStackInHand(Hand.OFF_HAND).getItem() == ItemsRegistry.KITCHEN_KNIFE && blockEntity.getItem() != ItemStack.EMPTY) {
                 BasicInventory inv = new BasicInventory(blockEntity.getItem());
                 Optional<CuttingRecipe> match = world.getRecipeManager().getFirstMatch(CuttingRecipe.Type.INSTANCE, inv, world);
 
@@ -92,8 +91,11 @@ public class CuttingBoardBlock extends HorizontalFacingBlock implements BlockEnt
                     world.playSound(player, pos.getX()+0.5, pos.getY()+0.3, pos.getZ()+0.5, SoundEvents.BLOCK_PUMPKIN_CARVE, SoundCategory.BLOCKS, 0.7f, 0.8f);
                     world.spawnEntity(item);
                 }
+                if(player.getStackInHand(Hand.OFF_HAND).getItem() == ItemsRegistry.KITCHEN_KNIFE) { player.swingHand(Hand.OFF_HAND); return ActionResult.CONSUME; }
             } else if(blockEntity.getItem() == ItemStack.EMPTY && !stack.isEmpty()) {
-                blockEntity.setItem(new ItemStack(stack.getItem(), 1));
+                ItemStack stack1 = player.getStackInHand(hand).copy();
+                stack1.setCount(1);
+                blockEntity.setItem(stack1);
                 if (!player.isCreative()) {
                     stack.decrement(1);
                 }
@@ -101,6 +103,7 @@ public class CuttingBoardBlock extends HorizontalFacingBlock implements BlockEnt
                 ItemEntity item = new ItemEntity(world, pos.getX()+0.5, pos.getY()+0.3, pos.getZ()+0.5, blockEntity.getItem());
                 blockEntity.setItem(ItemStack.EMPTY);
                 if(!player.isCreative()) {
+                    item.setToDefaultPickupDelay();
                     world.spawnEntity(item);
                 }
             }

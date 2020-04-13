@@ -1,5 +1,6 @@
 package io.github.foundationgames.sandwichable.blocks.entity.renderer;
 
+import io.github.foundationgames.sandwichable.blocks.CuttingBoardBlock;
 import io.github.foundationgames.sandwichable.blocks.entity.CuttingBoardBlockEntity;
 import io.github.foundationgames.sandwichable.items.ItemsRegistry;
 import net.minecraft.client.MinecraftClient;
@@ -27,7 +28,10 @@ public class CuttingBoardBlockEntityRenderer extends BlockEntityRenderer<Cutting
     public void render(CuttingBoardBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         matrices.push();
         ItemStack item = blockEntity.getItem();
-        Direction dir = Objects.requireNonNull(blockEntity.getWorld()).getBlockState(blockEntity.getPos()).get(Properties.HORIZONTAL_FACING);
+        Direction dir = Direction.NORTH;
+        if(blockEntity.getWorld().getBlockState(blockEntity.getPos()).getBlock() instanceof CuttingBoardBlock) {
+            dir = Objects.requireNonNull(blockEntity.getWorld()).getBlockState(blockEntity.getPos()).get(Properties.HORIZONTAL_FACING);
+        }
         int rotation = 40;
         switch (dir) {
             case NORTH:

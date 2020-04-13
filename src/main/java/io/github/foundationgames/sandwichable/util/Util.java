@@ -35,4 +35,14 @@ public class Util {
             world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, block.getDefaultState()), pos.getX()+0.5+ox, pos.getY()+0.5+oy, pos.getZ()+0.5+oz, 0.0D+vx, 0.0D+vy, 0.0D+vz);
         }
     }
+    public static void scatterDroppedBlockDust(World world, BlockPos pos, Block block, int intensity, int density) {
+        Random random = new Random();
+        for (int i = 0; i < density; i++) {
+            double ox, oy, oz, vx, vy, vz;
+            ox = (double)(random.nextInt(intensity * 2) - intensity) / 10;
+            oy = (double)(random.nextInt(intensity * 2) - intensity) / 10;
+            oz = (double)(random.nextInt(intensity * 2) - intensity) / 10;
+            world.addParticle(new BlockStateParticleEffect(ParticleTypes.BLOCK, block.getDefaultState()), pos.getX()+0.5+ox, pos.getY()+0.5+oy, pos.getZ()+0.5+oz, 0.0D, -0.3D, 0.0D);
+        }
+    }
 }

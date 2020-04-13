@@ -6,6 +6,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -72,9 +73,18 @@ public class ToasterBlock extends HorizontalFacingBlock implements BlockEntityPr
         super.neighborUpdate(state, world, pos, block, neighborPos, moved);
         if(world.getBlockEntity(pos) instanceof ToasterBlockEntity) {
             boolean toasting = ((ToasterBlockEntity)world.getBlockEntity(pos)).isToasting();
-            System.out.println(toasting);
             world.setBlockState(pos, world.getBlockState(pos).with(ON, toasting));
         }
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+        super.onPlaced(world, pos, state, placer, itemStack);
+        if(world.getBlockEntity(pos) instanceof ToasterBlockEntity) {
+            boolean toasting = ((ToasterBlockEntity)world.getBlockEntity(pos)).isToasting();
+            world.setBlockState(pos, world.getBlockState(pos).with(ON, toasting));
+        }
+
     }
 
     @Override

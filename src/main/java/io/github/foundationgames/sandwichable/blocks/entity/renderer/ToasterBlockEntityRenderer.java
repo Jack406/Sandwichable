@@ -1,5 +1,6 @@
 package io.github.foundationgames.sandwichable.blocks.entity.renderer;
 
+import io.github.foundationgames.sandwichable.blocks.CuttingBoardBlock;
 import io.github.foundationgames.sandwichable.blocks.ToasterBlock;
 import io.github.foundationgames.sandwichable.blocks.entity.ToasterBlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -11,8 +12,11 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.math.Direction;
+
+import java.util.Objects;
 
 public class ToasterBlockEntityRenderer extends BlockEntityRenderer<ToasterBlockEntity> {
 
@@ -25,9 +29,12 @@ public class ToasterBlockEntityRenderer extends BlockEntityRenderer<ToasterBlock
         matrices.push();
 
         DefaultedList<ItemStack> items = blockEntity.getItems();
-        Direction dir = blockEntity.getToasterFacing();
-        if(blockEntity.isToasting() || blockEntity.getWorld().getBlockState(blockEntity.getPos()).get(ToasterBlock.ON)) {
-            matrices.translate(0, -0.11, 0);
+        Direction dir = Direction.NORTH;
+        if(blockEntity.getWorld().getBlockState(blockEntity.getPos()).getBlock() instanceof ToasterBlock) {
+            dir = Objects.requireNonNull(blockEntity.getToasterFacing());
+            if(blockEntity.isToasting() || blockEntity.getWorld().getBlockState(blockEntity.getPos()).get(ToasterBlock.ON)) {
+                matrices.translate(0, -0.11, 0);
+            }
         }
         matrices.translate(0.5, 0.46, 0.5);
         int rot = 45;

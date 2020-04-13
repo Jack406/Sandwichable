@@ -1,12 +1,16 @@
 package io.github.foundationgames.sandwichable.blocks;
 
 import io.github.foundationgames.sandwichable.blocks.entity.BasinBlockEntity;
+import io.github.foundationgames.sandwichable.blocks.entity.BasinContentType;
+import io.github.foundationgames.sandwichable.items.ItemsRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.EntityContext;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -37,6 +41,20 @@ public class BasinBlock extends Block implements BlockEntityProvider {
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView view, BlockPos pos, EntityContext ctx) {
         return this.getOutlineShape(state, view, pos, ctx);
+    }
+
+    @Override
+    public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock() && world.getBlockEntity(pos)!=null) {
+            if(world.getBlockEntity(pos) instanceof BasinBlockEntity) {
+                BasinBlockEntity blockEntity = (BasinBlockEntity)world.getBlockEntity(pos);
+                if(blockEntity.getContent().getContentType() == BasinContentType.CHEESE) {
+                    ItemEntity item = new ItemEntity(world, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, new ItemStack(ItemsRegistry.CHEESE_WHEEL, 1));
+                    world.spawnEntity(item);
+                }
+            }
+            super.onBlockRemoved(state, world, pos, newState, moved);
+        }
     }
 
     @Override

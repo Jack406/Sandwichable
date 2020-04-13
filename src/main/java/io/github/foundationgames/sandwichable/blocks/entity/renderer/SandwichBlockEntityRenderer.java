@@ -26,7 +26,7 @@ public class SandwichBlockEntityRenderer extends BlockEntityRenderer<SandwichBlo
 
         DefaultedList<ItemStack> foodList = blockEntity.getFoodList();
 
-        matrices.translate(0.5, 0.017, 0.4);
+        matrices.translate(0.5, 0.017, 0.3772);
         int lightAbove = WorldRenderer.getLightmapCoordinates(blockEntity.getWorld(), blockEntity.getPos().up());
         matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion((90)));
         for(int i=0; i < foodList.size(); i++) {

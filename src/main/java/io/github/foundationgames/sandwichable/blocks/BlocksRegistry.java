@@ -7,7 +7,6 @@ import io.github.foundationgames.sandwichable.util.Util;
 import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -79,7 +78,7 @@ public class BlocksRegistry {
     }
 
     public static void registerSandwich(Block block, String name) {
-        registerBlock(block, name);
+        Registry.register(Registry.BLOCK, Util.id(name), block);
         Registry.register(Registry.ITEM, Util.id(name), new SandwichBlockItem(block));
     }
 

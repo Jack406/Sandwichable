@@ -1,6 +1,8 @@
 package io.github.foundationgames.sandwichable.blocks.entity.renderer;
 
 import io.github.foundationgames.sandwichable.blocks.entity.BasinBlockEntity;
+import io.github.foundationgames.sandwichable.blocks.entity.BasinContent;
+import io.github.foundationgames.sandwichable.blocks.entity.BasinContentType;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -34,16 +36,16 @@ public class BasinBlockEntityRenderer extends BlockEntityRenderer<BasinBlockEnti
         VertexConsumer cheeseVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(tex));
         VertexConsumer milkVertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityTranslucent(tex));
 
-        if(blockEntity.hasMilk() && !blockEntity.isFermenting()) {
+        if(blockEntity.getContent() == BasinContent.MILK) {
             this.milk.render(matrices, cheeseVertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
         }
-        else if(blockEntity.isFermenting() && !blockEntity.hasCheese()) {
+        else if(blockEntity.getContent().getContentType() == BasinContentType.FERMENTING_MILK) {
             float progressToFloat = (float)blockEntity.getFermentProgress() / BasinBlockEntity.fermentTime;
             float progressToFloatInv = 1.0F - progressToFloat;
             this.cheese.render(matrices, cheeseVertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
             this.milk.render(matrices, milkVertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, progressToFloatInv);
         }
-        else if(blockEntity.hasCheese()) {
+        else if(blockEntity.getContent().getContentType() == BasinContentType.CHEESE) {
             this.cheese.render(matrices, cheeseVertexConsumer, light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
         }
 

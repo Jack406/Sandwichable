@@ -13,12 +13,10 @@ import net.minecraft.util.registry.Registry;
 public class ItemsRegistry {
 
     public static final FoodComponent BREADSLICE = (new FoodComponent.Builder()).hunger(2).saturationModifier(0.5F).build();
-    public static final FoodComponent TOASTEDBREADSLICE = (new FoodComponent.Builder()).hunger(3).saturationModifier(0.8F).build();
-    public static final FoodComponent LETTUCEHEAD = (new FoodComponent.Builder()).hunger(5).saturationModifier(1.2F).snack().build();
+    public static final FoodComponent TOASTEDBREADSLICE = (new FoodComponent.Builder()).hunger(3).saturationModifier(0.6F).build();
+    public static final FoodComponent LETTUCEHEAD = (new FoodComponent.Builder()).hunger(5).saturationModifier(0.8F).snack().build();
     public static final FoodComponent LETTUCELEAF = (new FoodComponent.Builder()).hunger(1).saturationModifier(0.3F).snack().build();
-    public static final FoodComponent CHEESEWHEEL = (new FoodComponent.Builder()).hunger(9).saturationModifier(6.9F).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 400, 5), 1.0F).build();
-    public static final FoodComponent CHEESESLICE = (new FoodComponent.Builder()).hunger(3).saturationModifier(0.6F).snack().build();
-    public static final FoodComponent TOMATO_FOOD = (new FoodComponent.Builder()).hunger(4).saturationModifier(3.3F).build();
+    public static final FoodComponent TOMATO_FOOD = (new FoodComponent.Builder()).hunger(4).saturationModifier(0.42F).build();
     public static final FoodComponent TOMATOSLICE = (new FoodComponent.Builder()).hunger(2).saturationModifier(0.7F).build();
     public static final FoodComponent BACON = (new FoodComponent.Builder()).hunger(4).saturationModifier(0.7F).build();
     public static final FoodComponent PORKCUTS = (new FoodComponent.Builder()).hunger(2).saturationModifier(0.3F).build();
@@ -28,15 +26,16 @@ public class ItemsRegistry {
     public static final Item TOASTED_BREAD_SLICE = new Item(new Item.Settings().food(TOASTEDBREADSLICE).group(Sandwichable.SANDWICHABLE_ITEMS));
     public static final Item LETTUCE_HEAD = new Item(new Item.Settings().food(LETTUCEHEAD).group(Sandwichable.SANDWICHABLE_ITEMS));
     public static final Item LETTUCE_LEAF = new Item(new Item.Settings().food(LETTUCELEAF).group(Sandwichable.SANDWICHABLE_ITEMS));
-    public static final Item CHEESE_WHEEL = new Item(new Item.Settings().food(CHEESEWHEEL).group(Sandwichable.SANDWICHABLE_ITEMS));
-    public static final Item CHEESE_SLICE = new Item(new Item.Settings().food(CHEESESLICE).group(Sandwichable.SANDWICHABLE_ITEMS));
+    public static final Item CHEESE_WHEEL = new CheeseItem(CheeseType.REGULAR, false);
+    public static final Item CHEESE_SLICE = new CheeseItem(CheeseType.REGULAR, true);
     public static final Item TOMATO = new Item(new Item.Settings().food(TOMATO_FOOD).group(Sandwichable.SANDWICHABLE_ITEMS));
     public static final Item TOMATO_SLICE = new Item(new Item.Settings().food(TOMATOSLICE).group(Sandwichable.SANDWICHABLE_ITEMS));
     public static final Item BACON_STRIPS = new Item(new Item.Settings().food(BACON).group(Sandwichable.SANDWICHABLE_ITEMS));
     public static final Item PORK_CUTS = new Item(new Item.Settings().food(PORKCUTS).group(Sandwichable.SANDWICHABLE_ITEMS));
     public static final Item BURNT_FOOD = new Item(new Item.Settings().food(BURNTFOOD).group(Sandwichable.SANDWICHABLE_ITEMS));
 
-    public static final Item KITCHEN_KNIFE = new Item(new Item.Settings().maxDamage(5).group(Sandwichable.SANDWICHABLE_ITEMS));
+    public static final Item KITCHEN_KNIFE = new Item(new Item.Settings().maxCount(1).group(Sandwichable.SANDWICHABLE_ITEMS));
+    public static final Item FERMENTING_MILK_BUCKET = new FermentingMilkBucketItem(new Item.Settings().maxCount(1).group(Sandwichable.SANDWICHABLE_ITEMS));
 
     public static final Item LETTUCE_SEEDS = new AliasedBlockItem(BlocksRegistry.LETTUCE, new Item.Settings().group(Sandwichable.SANDWICHABLE_ITEMS));
     public static final Item TOMATO_SEEDS = new AliasedBlockItem(BlocksRegistry.TOMATOES, new Item.Settings().group(Sandwichable.SANDWICHABLE_ITEMS));
@@ -56,6 +55,7 @@ public class ItemsRegistry {
         registerItem(LETTUCE_SEEDS, "lettuce_seeds");
         registerItem(TOMATO_SEEDS, "tomato_seeds");
         registerItem(BURNT_FOOD, "burnt_food");
+        registerItem(FERMENTING_MILK_BUCKET, "fermenting_milk_bucket");
     }
 
     private static void registerItem(Item item, String name) {

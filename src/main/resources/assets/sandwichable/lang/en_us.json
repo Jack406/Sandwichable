@@ -1,6 +1,15 @@
 {
 	"itemGroup.sandwichable.sandwichable": "Sandwichable",
 	
+	"advancements.story.make_sandwich.title": "It's a Sandwich!",
+	"advancements.story.make_sandwich.description": "Make a sandwich using the Sandwich Table.",
+	"advancements.story.make_knife.title": "Chop Chop",
+	"advancements.story.make_knife.description": "Craft a kitchen knife.",
+	"advancements.story.craft_toaster.title": "Ding!",
+	"advancements.story.craft_toaster.description": "Craft a Redstone Toaster.",
+	"advancements.story.toast_bread.title": "Toast's Ready!",
+	"advancements.story.toast_bread.description": "Toast bread in a toaster.",
+	
 	"item.sandwichable.bread_slice": "Bread Slice",
 	"item.sandwichable.toasted_bread_slice": "Toasted Bread Slice",
 	"item.sandwichable.cheese_wheel": "Wheel of Cheese",
@@ -15,6 +24,7 @@
 	"item.sandwichable.tomato_seeds": "Tomato Seeds",
 	"item.sandwichable.burnt_food": "Burnt Food",
 	"item.sandwichable.kitchen_knife": "Kitchen Knife",
+	"item.sandwichable.fermenting_milk_bucket": "Fermenting Milk Bucket",
 	
 	"block.sandwichable.sandwich_table": "Sandwich Table",
 	"block.sandwichable.sandwich": "Sandwich",
@@ -32,11 +42,20 @@
 	"block.sandwichable.granite_basin": "Granite Basin",
 	"block.sandwichable.diorite_basin": "Diorite Basin",
 	"block.sandwichable.shrub": "Shrub",
+	"block.sandwichable.tomatoes": "Tomato Crop",
+	"block.sandwichable.lettuce": "Lettuce Crop",
+	"block.sandwichable.potted_shrub": "Potted Shrub",
 	
 	"sandwich.tooltip.ellipsis": "...",
 	"sandwich.tooltip.zandwich": "Is this even a sandwich?",
 	"sandwich.tooltip.bigsandwich": "The epitome of sandwiches.",
 	"sandwich.tooltip.hacked": "Unknown origin...",
+	
+	"cheese.type.regular": "Regular",
+	"cheese.type.dairy_free": "Dairy Free",
+	
+	"fermenting_milk_bucket.tooltip.pct_fermented": "%d%% Fermented",
+	"fermenting_milk_bucket.tooltip.no_properties": "No Properties",
 	
 	"category.sandwichable.cutting_board": "Cutting",
 	"category.sandwichable.toasting": "Toasting",

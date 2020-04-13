@@ -46,9 +46,11 @@ public class SandwichTableBlock extends Block implements BlockEntityProvider {
                 Inventories.fromTag(tag, sandwichlist);
                 player.getStackInHand(hand).decrement(1);
                 ((SandwichTableBlockEntity)blockEntity).setFoodList(sandwichlist);
-            } else if(!player.getStackInHand(hand).isEmpty() && player.getStackInHand(hand).isFood()) {
+            } else if(!player.getStackInHand(hand).isEmpty() && player.getStackInHand(hand).isFood() && player.getStackInHand(hand).getItem() != BlocksRegistry.SANDWICH.asItem()) {
                 if (Sandwichable.BREADS.contains(((SandwichTableBlockEntity)blockEntity).getFoodList().get(0).getItem()) || Sandwichable.BREADS.contains(player.getStackInHand(hand).getItem())) {
-                    ((SandwichTableBlockEntity) blockEntity).addFood(new ItemStack(player.getStackInHand(hand).getItem(), 1));
+                    ItemStack foodToBeAdded = player.getStackInHand(hand).copy();
+                    foodToBeAdded.setCount(1);
+                    ((SandwichTableBlockEntity) blockEntity).addFood(foodToBeAdded);
                     if(!player.isCreative()) {
                         player.getStackInHand(hand).decrement(1);
                     }

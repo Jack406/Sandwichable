@@ -5,10 +5,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.network.ServerItemCooldownManager;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.DefaultedList;
@@ -20,7 +22,7 @@ import java.util.Objects;
 
 public class SandwichBlockItem extends BlockItem {
     public SandwichBlockItem(Block block) {
-        super(block, new Item.Settings().food(new FoodComponent.Builder().build()));
+        super(block, new Item.Settings().food(new FoodComponent.Builder().build()).maxCount(1));
     }
 
     @Override
@@ -56,24 +58,30 @@ public class SandwichBlockItem extends BlockItem {
     }
 
     @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
+    public ItemStack finishUsing(ItemStack istack, World world, LivingEntity user) {
+        ItemStack stack = istack.copy();
         if(stack.getTag() != null) {
             CompoundTag tag = stack.getSubTag("BlockEntityTag");
             DefaultedList<ItemStack> foods = DefaultedList.ofSize(128, ItemStack.EMPTY);
             Inventories.fromTag(tag, foods);
+            ItemStack food;
+            ItemStack finishStack;
+            ItemCooldownManager cooldownManager;
             for (int i = 0; i < foods.size(); i++) {
-                ItemStack food = foods.get(i);
+                food = foods.get(i);
                 if(food.isFood()) {
-                    user.eatFood(world, food);
+                    //System.out.println(food.getItem().finishUsing(stack, world, user));
+                    finishStack = food.getItem().finishUsing(food, world, user);
                     if(user instanceof PlayerEntity) {
-                        if(!((PlayerEntity)user).isCreative()) {
-                            ((PlayerEntity)user).giveItemStack(food.getItem().finishUsing(stack, world, user));
-                        } else {
-                            food.getItem().finishUsing(stack, world, user);
+                        if(!((PlayerEntity)user).isCreative() && !finishStack.getItem().equals(Items.AIR)) {
+                            ((PlayerEntity)user).giveItemStack(finishStack);
                         }
-                    } else {
-                        food.getItem().finishUsing(stack, world, user);
+                        cooldownManager = ((PlayerEntity)user).getItemCooldownManager();
+                        if(cooldownManager.isCoolingDown(food.getItem())) {
+                            cooldownManager.set(this, 20);
+                        }
                     }
+                    user.eatFood(world, food);
                 }
             }
         }

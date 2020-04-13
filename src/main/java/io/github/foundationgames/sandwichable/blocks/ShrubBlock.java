@@ -14,6 +14,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Tickable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -47,14 +48,19 @@ public class ShrubBlock extends PlantBlock {
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         super.scheduledTick(state, world, pos, random);
-        //if(world.getBlockState(pos.down()).getBlock().equals(Blocks.GRASS_BLOCK)) {
+        if(world.getBlockState(pos.down()).getBlock().equals(Blocks.SAND)) {
             if (!state.get(SNIPPED)) {
+                Util.scatterDroppedBlockDust(world.getWorld(), pos, this, 2, 30);
                 world.setBlockState(pos, this.getDefaultState().with(SNIPPED, true));
             } else if (state.get(SNIPPED)) {
                 world.setBlockState(pos, Blocks.DEAD_BUSH.getDefaultState());
             }
-        //}
-        world.setBlockState(pos, Blocks.DEAD_BUSH.getDefaultState());
+        }
+    }
+
+    @Override
+    public boolean hasRandomTicks(BlockState state) {
+        return true;
     }
 
     @Override
